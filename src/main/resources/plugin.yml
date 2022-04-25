@@ -1,0 +1,29 @@
+name: Hardcorelives
+version: 2.0.0
+main: me.godofpro.hardcorelives.Hardcorelives
+api-version: 1.15
+softdepend: [ PlaceholderAPI, Vault ]
+authors: [ GodOfPro ]
+description: A lightweight plugin to have hardcore experience in multiplayer
+permissions:
+  HardcoreLives.givelive:
+    description: Allows you to use the command /givelive
+    default: op
+  HardcoreLives.setlive:
+    description: Allows you to use the command /setlive
+    default: op
+  HardcoreLives.getlive:
+    description: Allows you to use the command /getlive
+    default: op
+  HardcoreLives.invincibility:
+    description: Your lives won't go down and you won't get banned for getting killed 3 times if you have this perms
+    default: false
+  HardcoreLives.lives:
+    description: Allows you to use the command /lives
+    default: true
+  HardcoreLives.buylive:
+    description: Allows you to use the command /buylive
+    default: true
+  HardcoreLives.reload:
+    description: Allows you to use the command /hardcorelives reload
+    default: op
