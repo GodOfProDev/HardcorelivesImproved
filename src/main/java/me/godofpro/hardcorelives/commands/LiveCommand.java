@@ -2,6 +2,7 @@ package me.godofpro.hardcorelives.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
+import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import me.godofpro.hardcorelives.Hardcorelives;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -23,17 +24,8 @@ public class LiveCommand extends BaseCommand {
     @Description("Set the player lives")
     @Syntax("<player> <amount>")
     @CommandCompletion("@players @range:1-100")
-    public void onSetCommand(CommandSender sender, String[] args) {
-        // Args
-        Player player = null;
-        int amount = 0;
-        try {
-            player = Bukkit.getPlayer(args[0]);
-            amount = Integer.parseInt(args[1]);
-        } catch (IndexOutOfBoundsException e) {
-            sender.sendMessage(ChatColor.RED + "Usage: /live set <player> <amount>");
-            return;
-        }
+    public void onSetCommand(CommandSender sender, OnlinePlayer onlinePlayer, int amount) {
+        Player player = onlinePlayer.getPlayer();
 
         PersistentDataContainer data = player.getPersistentDataContainer();
         NamespacedKey liveKey = new NamespacedKey(plugin, "live-count");
@@ -51,17 +43,8 @@ public class LiveCommand extends BaseCommand {
     @Description("Add lives to a player")
     @Syntax("<player> <amount>")
     @CommandCompletion("@players @range:1-100")
-    public void onAddCommand(CommandSender sender, String[] args) {
-        // Args
-        Player player = null;
-        int amount = 0;
-        try {
-            player = Bukkit.getPlayer(args[0]);
-            amount = Integer.parseInt(args[1]);
-        } catch (IndexOutOfBoundsException e) {
-            sender.sendMessage(ChatColor.RED + "Usage: /live add <player> <amount>");
-            return;
-        }
+    public void onAddCommand(CommandSender sender, OnlinePlayer onlinePlayer, int amount) {
+        Player player = onlinePlayer.getPlayer();
 
         PersistentDataContainer data = player.getPersistentDataContainer();
         NamespacedKey liveKey = new NamespacedKey(plugin, "live-count");
@@ -80,17 +63,9 @@ public class LiveCommand extends BaseCommand {
     @Description("Remove lives from a player")
     @Syntax("<player> <amount>")
     @CommandCompletion("@players @range:1-100")
-    public void onRemoveCommand(CommandSender sender, String[] args) {
+    public void onRemoveCommand(CommandSender sender, OnlinePlayer onlinePlayer, int amount) {
         // Args
-        Player player = null;
-        int amount = 0;
-        try {
-            player = Bukkit.getPlayer(args[0]);
-            amount = Integer.parseInt(args[1]);
-        } catch (IndexOutOfBoundsException e) {
-            sender.sendMessage(ChatColor.RED + "Usage: /live remove <player> <amount>");
-            return;
-        }
+        Player player = onlinePlayer.getPlayer();
 
         PersistentDataContainer data = player.getPersistentDataContainer();
         NamespacedKey liveKey = new NamespacedKey(plugin, "live-count");
@@ -103,15 +78,8 @@ public class LiveCommand extends BaseCommand {
     @Description("Get the lives of a player")
     @Syntax("<player>")
     @CommandCompletion("@players")
-    public void onGetCommand(CommandSender sender, String[] args) {
-        // Args
-        Player player = null;
-        try {
-            player = Bukkit.getPlayer(args[0]);
-        } catch (IndexOutOfBoundsException e) {
-            sender.sendMessage(ChatColor.RED + "Usage: /live get <player>");
-            return;
-        }
+    public void onGetCommand(CommandSender sender, OnlinePlayer onlinePlayer) {
+        Player player = onlinePlayer.getPlayer();
 
         PersistentDataContainer data = player.getPersistentDataContainer();
         NamespacedKey liveKey = new NamespacedKey(plugin, "live-count");
@@ -123,15 +91,8 @@ public class LiveCommand extends BaseCommand {
     @Description("Reset the lives of a player to 1")
     @Syntax("<player>")
     @CommandCompletion("@players")
-    public void onResetCommand(CommandSender sender, String[] args) {
-        // Args
-        Player player = null;
-        try {
-            player = Bukkit.getPlayer(args[0]);
-        } catch (IndexOutOfBoundsException e) {
-            sender.sendMessage(ChatColor.RED + "Usage: /live reset <player>");
-            return;
-        }
+    public void onResetCommand(CommandSender sender, OnlinePlayer onlinePlayer) {
+        Player player = onlinePlayer.getPlayer();
 
         PersistentDataContainer data = player.getPersistentDataContainer();
         NamespacedKey liveKey = new NamespacedKey(plugin, "live-count");
@@ -141,8 +102,7 @@ public class LiveCommand extends BaseCommand {
 
     @Subcommand("resetall")
     @Description("Reset the lives of all players to 1")
-    public void onResetAllCommand(CommandSender sender, String[] args) {
-        // Args
+    public void onResetAllCommand(CommandSender sender) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             PersistentDataContainer data = player.getPersistentDataContainer();
             NamespacedKey liveKey = new NamespacedKey(plugin, "live-count");
@@ -155,20 +115,9 @@ public class LiveCommand extends BaseCommand {
     @Description("Set the max lives of a player")
     @Syntax("<player> <amount>")
     @CommandCompletion("@players @range:1-100")
-    public void onSetMaxCommand(CommandSender sender, String[] args) {
+    public void onSetMaxCommand(CommandSender sender, OnlinePlayer onlinePlayer, int amount) {
         // Args
-        Player player = null;
-        int amount = 0;
-        try {
-            player = Bukkit.getPlayer(args[0]);
-            amount = Integer.parseInt(args[1]);
-        } catch (IndexOutOfBoundsException e) {
-            sender.sendMessage(ChatColor.RED + "Usage: /live setmax <player> <amount>");
-            return;
-        } catch (NumberFormatException e) {
-            sender.sendMessage(ChatColor.RED + "Usage: /live setmax <player> <amount>");
-            return;
-        }
+        Player player = onlinePlayer.getPlayer();
 
         PersistentDataContainer data = player.getPersistentDataContainer();
         NamespacedKey maxLiveKey = new NamespacedKey(plugin, "live-max");
@@ -180,15 +129,7 @@ public class LiveCommand extends BaseCommand {
     @Description("Set the max lives of all players")
     @Syntax("<amount>")
     @CommandCompletion("@range:1-100")
-    public void onSetMaxAllCommand(CommandSender sender, String[] args) {
-        // Args
-        int amount = 0;
-        try {
-            amount = Integer.parseInt(args[0]);
-        } catch (NumberFormatException e) {
-            sender.sendMessage(ChatColor.RED + "Usage: /live setmaxall <amount>");
-            return;
-        }
+    public void onSetMaxAllCommand(CommandSender sender, int amount) {
 
         if(amount <= 0) {
             sender.sendMessage(ChatColor.RED + " The amount must be greater than 0");
